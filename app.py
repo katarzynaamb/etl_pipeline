@@ -17,8 +17,11 @@ def create_app():
     @app.route("/etl/trigger", methods=["POST"])
     def trigger_etl():
         # Trigger your ETL process here
-        etl()
-        return {"message": f"ETL process started"}, 200
+        try:
+            etl()
+        except FileNotFoundError:
+            return {"message": "Files missing in data directory"}, 422
+        return {"message": "ETL process started"}, 200
 
     @app.route("/")
     def home():
