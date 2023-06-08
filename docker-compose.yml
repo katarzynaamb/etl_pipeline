@@ -13,6 +13,7 @@ services:
     DATABASE_URL: postgresql://postgres:example@db:5432/postgres
   depends_on:
    - db
+   - migration
 
  db:
   container_name: etl_db
@@ -22,3 +23,16 @@ services:
    - 5432:5432
   environment:
     POSTGRES_PASSWORD: example
+
+ migration:
+  container_name: etl_migration
+  restart: on-failure
+  build:
+   context: .
+  command: flask db upgrade
+  volumes:
+   - ./:/app
+  environment:
+   DATABASE_URL: postgresql://postgres:example@db:5432/postgres
+  depends_on:
+   - db
