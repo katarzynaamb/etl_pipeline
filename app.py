@@ -14,7 +14,7 @@ def create_app():
     Migrate(app, db)
 
     # Your API that can be called to trigger your ETL process
-    @app.route("/etl/trigger", methods=["GET"])
+    @app.route("/etl/trigger", methods=["POST"])
     def trigger_etl():
         # Trigger your ETL process here
         etl()
